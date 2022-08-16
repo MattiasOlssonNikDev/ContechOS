@@ -34,7 +34,9 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           
       - name: Try Run Commands
-        run: ssh staging 'dig +short myip.opendns.com @resolver1.opendns.com'
+        run: |
+          ssh staging 'dig +short myip.opendns.com @resolver1.opendns.com'
+          echo $?
 
       #- name: Stop the server
       #  run: ssh staging 'sudo systemctl stop my-application'
