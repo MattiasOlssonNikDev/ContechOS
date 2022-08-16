@@ -33,10 +33,24 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           
-      - name: Try Run Commands
+      - name: Stop the server
         run: |
-          ssh staging 'ls'
-          echo $?
+          ssh staging 'sudo systemctl stop nginx'
+          ssh staging 'sudo systemctl stop NodeServer.service'
+          
+      - name: Remove and redploy
+        run: ssh staging 'rm -rf contechos/ContechOS'
+
+      - name: Check out the source
+        run: ssh staging 'cd contechos/ && git clone -b dev https://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@github.com/nikolai4D/ContechOS.git'
+
+      - name: Start the server
+        if: ${{ always() }}
+        run: |
+          ssh staging 'cd contechos/ContechOS/ && npm install'
+          ssh staging 'sudo systemctl daemon-reload'
+          ssh staging 'sudo systemctl start NodeServer.service'
+          ssh staging 'sudo systemctl start nginx'
 
       #- name: Stop the server
       #  run: ssh staging 'sudo systemctl stop my-application'
