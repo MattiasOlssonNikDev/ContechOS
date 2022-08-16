@@ -35,7 +35,7 @@ jobs:
           
       - name: Try Run Commands
         run: |
-          ssh staging 'dig +short myip.opendns.com @resolver1.opendns.com'
+          ssh staging 'ls'
           echo $?
 
       #- name: Stop the server
