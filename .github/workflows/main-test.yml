@@ -34,7 +34,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
        
       - name: Run deploy script
-        run: /home/ec2-user/deploy.sh
+        run: ssh staging '/home/ec2-user/deploy.sh'
        
       #- name: Stop the server
       #  run: |
